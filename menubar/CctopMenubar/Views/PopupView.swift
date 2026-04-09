@@ -18,6 +18,7 @@ struct PopupView: View {
     @ObservedObject var updater: UpdaterBase
     var pluginManager: PluginManager?
     var navigate: NavigateController?
+    var onRemoveSession: ((Session) -> Void)?
     @ObservedObject var overlayController: OverlayController = OverlayController()
     var initialTab: PopupTab = .active
     @State private var selectedTab: PopupTab = .active
@@ -154,6 +155,14 @@ struct PopupView: View {
                                     }
                                     Button { copyPath(session.projectPath) } label: {
                                         Label("Copy Project Path", systemImage: "doc.on.doc")
+                                    }
+                                    if onRemoveSession != nil {
+                                        Divider()
+                                        Button(role: .destructive) {
+                                            onRemoveSession?(session)
+                                        } label: {
+                                            Label("Remove from cctop", systemImage: "xmark.circle")
+                                        }
                                     }
                                 }
                                 .help("Click to jump to session")

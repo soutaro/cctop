@@ -82,6 +82,15 @@ class SessionManager: ObservableObject {
         cleanupOldFormatFiles(jsonFiles)
     }
 
+    func removeSession(_ session: Session) {
+        let url = sessionsDir.appendingPathComponent("\(session.id).json")
+        logger.info("removeSession: manually removing \(session.id, privacy: .public)")
+        _ = historyManager.archiveSession(session)
+        try? FileManager.default.removeItem(at: url)
+        try? FileManager.default.removeItem(at: url.appendingPathExtension("lock"))
+        loadSessions()
+    }
+
     private func archiveAndRemoveDeadSessions(_ dead: [(URL, Session)]) {
         for (url, session) in dead {
             let sid = session.sessionId

@@ -107,7 +107,8 @@ struct PanelContentView: View {
             updater: updater,
             pluginManager: pluginManager,
             navigate: navigate,
-            overlayController: overlayController
+            overlayController: overlayController,
+            onRemoveSession: { sessionManager.removeSession($0) }
         )
         .frame(width: 320)
         .background(Color.panelBackground)
